@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>橙蓝文旅 | 悦享旅途</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', Roboto, sans-serif;
+            background: radial-gradient(circle at 10% 30%, #fff5e6, #e8f0fe);
+            min-height: 100vh;
+            color: #1e2a3e;
+        }
+
+        /* 磨砂通用层 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.38);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 166, 77, 0.4);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            background: linear-gradient(115deg, #f97316 0%, #ea580c 30%, #1e3a8a 85%, #1e40af 100%);
+            color: white;
+            padding: 18px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff9c4, #ffe0b5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav a {
+            color: #fff7ed;
+            margin: 0 18px;
+            font-weight: 500;
+            transition: 0.2s;
+            text-decoration: none;
+            font-size: 1rem;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav a:hover {
+            border-bottom-color: #ffb347;
+            color: #ffedd5;
+        }
+
+        /* 轮播图 */
+        .carousel {
+            width: 90%;
+            max-width: 1400px;
+            margin: 20px auto 0;
+            border-radius: 2rem;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 420px;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel .prev, .carousel .next {
+            background: rgba(249, 115, 22, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+        }
+
+        .carousel .prev { left: 20px; }
+        .carousel .next { right: 20px; }
+        .carousel .prev:hover, .carousel .next:hover {
+            background: #f97316;
+            color: white;
+        }
+
+        .dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 2;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,220,0.6);
+            border-radius: 10px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            width: 26px;
+            background: #f97316;
+            box-shadow: 0 0 6px #ffb347;
+        }
+
+        /* 搜索栏 */
+        .search-bar {
+            width: 80%;
+            max-width: 780px;
+            margin: -40px auto 20px;
+            background: rgba(255, 248, 235, 0.85);
+            backdrop-filter: blur(16px);
+            border-radius: 60px;
+            padding: 8px 8px 8px 24px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(249, 115, 22, 0.5);
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 14px 0;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+            color: #2c3e2f;
+            font-weight: 500;
+        }
+
+        .search-bar input::placeholder {
+            color: #b97f3a;
+        }
+
+        .search-bar button {
+            background: #f97316;
+            border: none;
+            padding: 0 28px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .search-bar button:hover {
+            background: #ea580c;
+        }
+
+        /* 分类 */
+        .categories {
+            width: 90%;
+            max-width: 1300px;
+            margin: 30px auto 10px;
+            padding: 20px 24px;
+            background: rgba(255, 245, 230, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 36px;
+        }
+
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 12px;
+        }
+
+        .category-item {
+            padding: 8px 24px;
+            background: rgba(255,255,240,0.7);
+            border-radius: 40px;
+            font-weight: 500;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(249,115,22,0.2);
+        }
+
+        .category-item.active, .category-item:hover {
+            background: #f97316;
+            color: white;
+            border-color: #f97316;
+        }
+
+        /* 景区网格 */
+        .scenic-list {
+            width: 90%;
+            max-width: 1400px;
+            margin: 20px auto;
+        }
+
+        .scenic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+        }
+
+        .scenic-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(249,115,22,0.3);
+        }
+
+        .scenic-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #f97316;
+        }
+
+        .scenic-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .scenic-info {
+            padding: 18px;
+        }
+
+        .scenic-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            color: #1e293b;
+        }
+
+        .price {
+            color: #f97316;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin-top: 10px;
+        }
+
+        .detail-info button, .scenic-info button {
+            background: #f97316;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 36px;
+            color: white;
+            font-weight: 600;
+            margin-top: 12px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .detail-info .favorite-btn {
+            background: #1e3a8a;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: rgba(255, 248, 235, 0.96);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            border: 1px solid #f97316;
+            width: 90%;
+            max-width: 420px;
+            padding: 30px;
+        }
+
+        .ticket-form, .checkout-container, .profile-container {
+            background: rgba(255, 250, 240, 0.9);
+            backdrop-filter: blur(16px);
+            border-radius: 2rem;
+            border: 1px solid #ffb155;
+            padding: 24px;
+        }
+
+        .footer {
+            background: rgba(30, 58, 138, 0.85);
+            backdrop-filter: blur(12px);
+            color: #ffefcf;
+            border-radius: 2rem 2rem 0 0;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 30px;
+        }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        @media (max-width: 760px) {
+            .header { flex-direction: column; gap: 12px; }
+            .search-bar { width: 95%; }
+        }
+        input, select { border-radius: 40px; padding: 10px 16px; border: 1px solid #ffb155; margin: 8px 0; width: 100%; }
+        .error { color: #d97706; font-size: 12px; display: none; }
+        .close { float: right; font-size: 28px; cursor: pointer; }
+        .close:hover { color: #f97316; }
+        .back-btn { margin: 20px; background: #f97316; padding: 8px 24px; border-radius: 40px; border: none; color: white; cursor: pointer; }
+        .profile-info p { margin: 12px 0; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="logo">🏔️ 橙蓝文旅 · 诗意远方</div>
+    <div class="nav">
+        <a href="#" onclick="showPage('home')">首页</a>
+        <a href="#" onclick="showFavoritesPage()" id="nav-favorites" style="display: none;">❤️ 收藏夹</a>
+        <a href="#" onclick="showProfilePage()" id="nav-profile" style="display: none;">👤 个人中心</a>
+        <a href="#" id="login-btn" onclick="openLogin()">🔑 登录/注册</a>
+        <a href="#" id="logout-btn" onclick="logout()" style="display:none;">🚪 退出登录</a>
+    </div>
+</div>
+
+<!-- 首页 -->
+<div id="home" class="page active">
+    <div class="carousel">
+        <div class="slides" id="slides">
+            <div class="slide"><img src="mages/1.png" alt="故宫"></div>
+            <div class="slide"><img src="mages/2.png" alt="长城"></div>
+            <div class="slide"><img src="mages/3.png" alt="黄山"></div>
+            <div class="slide"><img src="mages/4.png" alt="西湖"></div>
+            <div class="slide"><img src="mages/10.png" alt="东方明珠"></div>
+        </div>
+        <div class="prev" onclick="prevSlide()">‹</div>
+        <div class="next" onclick="nextSlide()">›</div>
+        <div class="dots" id="dots"></div>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="🔍 搜索景区... 故宫、黄山、迪士尼">
+        <button onclick="search()">寻觅旅程</button>
+    </div>
+
+    <div class="categories glass-card">
+        <h3 style="color:#ea580c;">✨ 灵感分类</h3>
+        <div class="category-list" id="category-list">
+            <div class="category-item active" data-category="all">全部</div>
+            <div class="category-item" data-category="历史古迹">🏯 历史古迹</div>
+            <div class="category-item" data-category="自然风光">🌿 自然风光</div>
+            <div class="category-item" data-category="主题乐园">🎢 主题乐园</div>
+            <div class="category-item" data-category="现代地标">🏙️ 现代地标</div>
+        </div>
+    </div>
+
+    <div class="scenic-list">
+        <h3 style="margin-bottom: 20px; color:#1e3a8a;">🌟 热门推荐 · 即刻启程</h3>
+        <div class="scenic-grid" id="scenic-grid"></div>
+    </div>
+</div>
+
+<!-- 景区详情页 -->
+<div id="detail-page" class="page">
+    <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+    <div id="detail-content" style="max-width:1200px; margin:0 auto;"></div>
+</div>
+
+<!-- 收藏夹页面 -->
+<div id="favorites-page" class="page">
+    <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+    <h3 style="margin:0 0 20px 30px;">📖 我的收藏</h3>
+    <div id="favorites-list" style="max-width:1300px; margin:0 auto;"></div>
+    <div id="no-favorites" style="display:none; text-align:center; padding:60px; font-size:1.2rem; color:#666;">✨ 暂无收藏，去首页添加心仪景点吧</div>
+</div>
+
+<!-- 购票页 -->
+<div id="ticket-page" class="page">
+    <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+    <div class="ticket-form" id="ticket-form" style="max-width:650px; margin:20px auto;"></div>
+</div>
+
+<!-- 结算页 -->
+<div id="checkout-page" class="page">
+    <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+    <div class="checkout-container" id="checkout-content" style="max-width:750px; margin:20px auto;"></div>
+</div>
+
+<!-- 个人中心 -->
+<div id="profile-page" class="page">
+    <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+    <div class="profile-container" style="max-width:600px; margin:20px auto;">
+        <h3>🧑‍🚀 个人中心</h3>
+        <div class="profile-info" id="profile-info" style="margin:25px 0;"></div>
+        <button onclick="showFavoritesPage()" style="background:#1e3a8a; padding:10px 24px; border-radius:40px; border:none; color:white; cursor:pointer;">❤️ 我的收藏夹</button>
+    </div>
+</div>
+
+<!-- 登录模态框 -->
+<div class="modal" id="login-modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3 id="modal-title" style="color:#ea580c;">登录</h3>
+        <input type="text" id="username" placeholder="用户名">
+        <div class="error" id="username-error">用户名不能为空</div>
+        <input type="password" id="password" placeholder="密码">
+        <div class="error" id="password-error">密码不能为空</div>
+        <input type="email" id="email" placeholder="邮箱（注册时填写）" style="display:none;">
+        <div class="error" id="email-error">请输入有效邮箱</div>
+        <button id="modal-btn" onclick="handleAuth()" style="background:#f97316; width:100%; padding:12px; border-radius:40px; font-weight:bold; border:none; cursor:pointer;">登录</button>
+        <div class="switch" style="text-align:center; margin-top:16px;"><a href="#" id="switch-link" style="color:#ea580c;">立即注册</a></div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2025 橙蓝文旅 | 让每一次出发都有温度</p>
+    <div class="student-info">姓名：王利博 | 学号：214215220218</div>
+</div>
+
+<script>
+    // ---------- 景区数据 ----------
+    const scenicData = [
+        { id: 1, name: '故宫博物院', category: '历史古迹', price: 60, desc: '北京故宫是中国明清两代的皇家宫殿，是世界上现存规模最大、保存最为完整的木质结构古建筑群。', image: 'mages/1.png' },
+        { id: 2, name: '八达岭长城', category: '历史古迹', price: 45, desc: '八达岭长城是明长城中保存最完好的一段，是万里长城的重要组成部分，被誉为"天下九塞"之一。', image: 'mages/2.png' },
+        { id: 3, name: '黄山风景区', category: '自然风光', price: 200, desc: '黄山以奇松、怪石、云海、温泉"四绝"闻名于世，是中国十大风景名胜之一。', image: 'mages/3.png' },
+        { id: 4, name: '杭州西湖', category: '自然风光', price: 200, desc: '西湖是杭州的标志性景点，以秀丽的湖光山色和众多的名胜古迹闻名中外。', image: 'mages/4.png' },
+        { id: 5, name: '上海迪士尼乐园', category: '主题乐园', price: 599, desc: '上海迪士尼乐园是中国大陆首座迪士尼主题乐园，拥有多个主题园区和精彩表演。', image: 'mages/5.png' },
+        { id: 6, name: '秦始皇兵马俑', category: '历史古迹', price: 150, desc: '秦始皇兵马俑是世界八大奇迹之一，是秦始皇陵的陪葬坑，展现了古代中国的军事力量。', image: 'mages/6.png' },
+        { id: 7, name: '张家界石林', category: '自然风光', price: 225, desc: '张家界以其独特的石英砂岩峰林地貌而闻名，是世界自然遗产和世界地质公园。', image: 'mages/7.png' },
+        { id: 8, name: '国家科学博物馆', category: '现代地标', price: 0, desc: '国家科学博物馆是中国最大的综合性科技馆，展示了丰富的科学知识和科技成果。', image: 'mages/8.png' },
+        { id: 9, name: '大唐不夜城', category: '历史古迹', price: 0, desc: '大唐不夜城位于西安，以盛唐文化为主题，是集购物、餐饮、娱乐为一体的文化街区。', image: 'mages/9.png' },
+        { id: 10, name: '东方明珠', category: '现代地标', price: 199, desc: '东方明珠是上海的标志性建筑，是亚洲第一、世界第三高塔，可俯瞰整个上海市区。', image: 'mages/10.png' },
+        { id: 11, name: '广州塔', category: '现代地标', price: 150, desc: '广州塔是广州的新地标，以其独特的造型和高度成为游客必打卡景点。', image: 'mages/11.png' },
+        { id: 12, name: '香港西九龙文化区', category: '现代地标', price: 0, desc: '西九龙文化区是香港的文化新地标，包含多个世界级文化设施。', image: 'mages/12.png' },
+        { id: 13, name: '华山', category: '自然风光', price: 160, desc: '华山是中国五岳之一，以险峻著称，有"奇险天下第一山"之称。', image: 'mages/13.png' },
+        { id: 14, name: '泰山', category: '自然风光', price: 115, desc: '泰山是中国五岳之首，是历代帝王祭天的神山，具有深厚的文化底蕴。', image: 'mages/14.png' }
+    ];
+
+    // ========== 全局状态 ==========
+    let currentUser = null;      // 当前登录用户 { id, username, password, email }
+    let favorites = [];          // 当前用户的收藏景区对象数组
+    
+    // 轮播相关
+    let currentSlide = 0;
+    let slideInterval;
+    let isLoginMode = true;      // 登录/注册模式切换
+    
+    // ========== 收藏夹数据库操作 (模拟MySQL，基于localStorage按用户ID存储) ==========
+    // 获取用户收藏的景区ID列表
+    function getUserFavoritesIds(userId) {
+        const key = `favorites_user_${userId}`;
+        const stored = localStorage.getItem(key);
+        return stored ? JSON.parse(stored) : [];
+    }
+    
+    // 保存用户收藏的景区ID列表
+    function saveUserFavoritesIds(userId, ids) {
+        const key = `favorites_user_${userId}`;
+        localStorage.setItem(key, JSON.stringify(ids));
+    }
+    
+    // 从数据库加载当前用户的收藏（将ID转为完整景区对象）
+    async function loadFavoritesFromDB() {
+        if (!currentUser) {
+            favorites = [];
+            return;
+        }
+        const ids = getUserFavoritesIds(currentUser.id);
+        favorites = ids.map(id => scenicData.find(s => s.id === id)).filter(s => s !== undefined);
+        // 自动刷新收藏夹UI（如果当前在收藏页）
+        if (document.getElementById('favorites-page').classList.contains('active')) {
+            renderFavoritesPage();
+        }
+    }
+    
+    // 保存当前用户的收藏到数据库
+    async function saveFavoritesToDB() {
+        if (!currentUser) return;
+        const ids = favorites.map(f => f.id);
+        saveUserFavoritesIds(currentUser.id, ids);
+    }
+    
+    // 添加/取消收藏
+    async function toggleFavorite(scenicId) {
+        if (!currentUser) {
+            alert('请先登录，再收藏心仪景点~');
+            openLogin();
+            return false;
+        }
+        const scenic = scenicData.find(s => s.id === scenicId);
+        if (!scenic) return false;
+        
+        const index = favorites.findIndex(f => f.id === scenicId);
+        if (index === -1) {
+            favorites.push(scenic);
+            alert(`❤️ 成功收藏 ${scenic.name}`);
+        } else {
+            favorites.splice(index, 1);
+            alert(`已取消收藏 ${scenic.name}`);
+        }
+        await saveFavoritesToDB();
+        
+        // 刷新收藏夹页面（如果当前在收藏页）
+        if (document.getElementById('favorites-page').classList.contains('active')) {
+            renderFavoritesPage();
+        }
+        // 更新详情页的收藏按钮文字
+        const detailContainer = document.getElementById('detail-content');
+        if (detailContainer && detailContainer.innerHTML.includes(scenic.name)) {
+            const favBtn = document.querySelector('#detail-content .favorite-btn');
+            if (favBtn) {
+                favBtn.textContent = isFavorite(scenicId) ? '❤️ 取消收藏' : '🤍 添加收藏';
+            }
+        }
+        return true;
+    }
+    
+    function isFavorite(scenicId) {
+        return favorites.some(f => f.id === scenicId);
+    }
+    
+    // 渲染收藏夹页面
+    function renderFavoritesPage() {
+        const container = document.getElementById('favorites-list');
+        const noFavDiv = document.getElementById('no-favorites');
+        if (!container) return;
+        
+        if (!currentUser) {
+            container.innerHTML = '<div style="text-align:center; padding:60px;">请先登录查看收藏夹</div>';
+            noFavDiv.style.display = 'none';
+            return;
+        }
+        
+        if (favorites.length === 0) {
+            container.innerHTML = '';
+            noFavDiv.style.display = 'block';
+            return;
+        }
+        
+        noFavDiv.style.display = 'none';
+        container.innerHTML = favorites.map(item => `
+            <div class="scenic-card" style="margin-bottom:20px;">
+                <img src="${item.image}" alt="${item.name}">
+                <div class="scenic-info">
+                    <h4>${item.name}</h4>
+                    <p>${item.category}</p>
+                    <p class="price">${item.price === 0 ? '免费' : '¥'+item.price}</p>
+                    <button onclick="toggleFavorite(${item.id})">💔 取消收藏</button>
+                    <button onclick="buyTicket(${item.id})">🎫 立即购票</button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    // ========== 页面渲染函数 ==========
+    function renderScenicList(data) {
+        const grid = document.getElementById('scenic-grid');
+        if (!grid) return;
+        grid.innerHTML = data.map(item => `
+            <div class="scenic-card" onclick="showDetail(${item.id})">
+                <img src="${item.image}" alt="${item.name}">
+                <div class="scenic-info">
+                    <h4>${item.name}</h4>
+                    <p>${item.category}</p>
+                    <p class="price">${item.price === 0 ? '免费' : '¥'+item.price}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function showDetail(id) {
+        const scenic = scenicData.find(s => s.id === id);
+        if (!scenic) return;
+        const container = document.getElementById('detail-content');
+        container.innerHTML = `
+            <div style="display:flex; flex-wrap:wrap; gap:30px; margin:30px; background:rgba(255,248,235,0.6); backdrop-filter:blur(12px); border-radius:2rem; padding:28px;">
+                <img src="${scenic.image}" alt="${scenic.name}" style="width:100%; max-width:480px; border-radius:28px; object-fit:cover;">
+                <div style="flex:1;">
+                    <h2>${scenic.name}</h2>
+                    <p style="margin:15px 0; color:#334155; line-height:1.6;">${scenic.desc}</p>
+                    <p style="font-size:2rem; color:#f97316; font-weight:bold;">${scenic.price === 0 ? '免费参观' : '¥'+scenic.price}</p>
+                    <div style="margin-top:28px;">
+                        <button class="buy-btn" onclick="buyTicket(${scenic.id})">🎟️ 立即购票</button>
+                        <button class="favorite-btn" onclick="toggleFavorite(${scenic.id})" style="background:#1e3a8a;">${isFavorite(scenic.id) ? '❤️ 取消收藏' : '🤍 添加收藏'}</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        showPage('detail-page');
+    }
+    
+    // 搜索功能
+    function search() {
+        const keyword = document.getElementById('search-input').value.toLowerCase();
+        const filtered = scenicData.filter(item => 
+            item.name.toLowerCase().includes(keyword) || 
+            item.category.toLowerCase().includes(keyword)
+        );
+        renderScenicList(filtered);
+    }
+    
+    // ========== 购票与结算 ==========
+    let currentCart = null;
+    
+    function buyTicket(id) {
+        if (!currentUser) {
+            alert('登录后即可购票，请先登录');
+            openLogin();
+            return;
+        }
+        const scenic = scenicData.find(s => s.id === id);
+        if (!scenic) return;
+        
+        const formDiv = document.getElementById('ticket-form');
+        formDiv.innerHTML = `
+            <h3>🎫 购买 ${scenic.name} 门票</h3>
+            <div><label>📅 游玩日期</label><input type="date" id="ticket-date" required></div>
+            <div><label>🎟️ 票种</label><select id="ticket-type">
+                <option value="adult">成人票 - ¥${scenic.price}</option>
+                <option value="child">儿童票 - ¥${Math.floor(scenic.price/2)}</option>
+                <option value="student">学生票 - ¥${Math.floor(scenic.price*0.7)}</option>
+            </select></div>
+            <div><label>👥 数量</label><div style="display:flex; gap:15px; align-items:center;">
+                <button type="button" id="minusQty" style="background:#f97316; width:40px; border:none; border-radius:40px; cursor:pointer;">-</button>
+                <span id="qtySpan" style="padding:0 15px; font-size:1.2rem;">1</span>
+                <button type="button" id="plusQty" style="background:#f97316; width:40px; border:none; border-radius:40px; cursor:pointer;">+</button>
+            </div></div>
+            <div><label>📞 联系人</label><input type="text" id="contact-name" placeholder="姓名"><input type="tel" id="contact-phone" placeholder="手机号"></div>
+            <div style="font-size:1.6rem; font-weight:bold; margin-top:15px;">💰 总计: <span id="totalPricePreview">¥${scenic.price}</span></div>
+            <button id="submitOrderBtn" style="background:#f97316; width:100%; margin-top:15px; padding:12px; border:none; border-radius:40px; cursor:pointer;">✅ 提交订单</button>
+        `;
+        
+        let qty = 1;
+        const updateTotal = () => {
+            const type = document.getElementById('ticket-type').value;
+            let base = scenic.price;
+            if (type === 'child') base = Math.floor(scenic.price/2);
+            if (type === 'student') base = Math.floor(scenic.price*0.7);
+            document.getElementById('totalPricePreview').innerHTML = `¥${base * qty}`;
+        };
+        document.getElementById('minusQty').onclick = () => { if(qty>1) { qty--; document.getElementById('qtySpan').innerText = qty; updateTotal(); } };
+        document.getElementById('plusQty').onclick = () => { qty++; document.getElementById('qtySpan').innerText = qty; updateTotal(); };
+        document.getElementById('ticket-type').addEventListener('change', updateTotal);
+        document.getElementById('submitOrderBtn').onclick = () => {
+            const date = document.getElementById('ticket-date').value;
+            const type = document.getElementById('ticket-type').value;
+            const name = document.getElementById('contact-name').value;
+            const phone = document.getElementById('contact-phone').value;
+            if (!date || !name || !phone) { alert('请完整填写信息'); return; }
+            let unit = scenic.price;
+            if (type === 'child') unit = Math.floor(scenic.price/2);
+            if (type === 'student') unit = Math.floor(scenic.price*0.7);
+            currentCart = { scenic, date, type, quantity: qty, totalPrice: unit * qty, contact: { name, phone } };
+            showCheckout();
+        };
+        showPage('ticket-page');
+    }
+    
+    function showCheckout() {
+        const item = currentCart;
+        const container = document.getElementById('checkout-content');
+        container.innerHTML = `
+            <h3>📋 确认订单</h3>
+            <div style="padding:18px; border-bottom:1px solid #f97316;">
+                <h4>${item.scenic.name}</h4>
+                <p>📅 ${item.date}</p>
+                <p>🎟️ ${item.type==='adult'?'成人':item.type==='child'?'儿童':'学生'} × ${item.quantity}</p>
+                <p>👤 ${item.contact.name} ${item.contact.phone}</p>
+                <div style="font-size:1.4rem; font-weight:bold;">¥${item.totalPrice}</div>
+            </div>
+            <div style="text-align:right; margin-top:25px;">
+                <span style="font-size:1.4rem;">应付总额：</span>
+                <span style="color:#f97316; font-size:2rem; font-weight:bold;">¥${item.totalPrice}</span>
+            </div>
+            <button id="confirmPayBtn" style="background:#f97316; width:200px; margin-top:20px; padding:12px; border:none; border-radius:40px; cursor:pointer;">💳 确认支付</button>
+        `;
+        document.getElementById('confirmPayBtn').onclick = () => {
+            alert('🎉 订单成功！旅途愉快~');
+            currentCart = null;
+            showPage('home');
+        };
+        showPage('checkout-page');
+    }
+    
+    // ========== 页面切换 ==========
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById(pageId);
+        if (target) target.classList.add('active');
+    }
+    
+    function showFavoritesPage() {
+        showPage('favorites-page');
+        renderFavoritesPage();
+    }
+    
+    function showProfilePage() {
+        showPage('profile-page');
+        if (currentUser) {
+            document.getElementById('profile-info').innerHTML = `
+                <p>👤 用户名：${currentUser.username}</p>
+                <p>📧 邮箱：${currentUser.email || '未绑定'}</p>
+                <p>🆔 用户ID：${currentUser.id}</p>
+            `;
+        } else {
+            document.getElementById('profile-info').innerHTML = `<p style="color:#999;">请先登录</p>`;
+        }
+    }
+    
+    // ========== 轮播图 ==========
+    function goToSlide(index) {
+        const slides = document.getElementById('slides');
+        const dots = document.querySelectorAll('.dot');
+        if (!slides) return;
+        currentSlide = index;
+        slides.style.transform = `translateX(-${index * 100}%)`;
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    }
+    
+    function nextSlide() {
+        const slides = document.getElementById('slides');
+        if (slides) {
+            goToSlide((currentSlide + 1) % slides.children.length);
+        }
+    }
+    
+    function prevSlide() {
+        const slides = document.getElementById('slides');
+        if (slides) {
+            goToSlide((currentSlide - 1 + slides.children.length) % slides.children.length);
+        }
+    }
+    
+    function initCarousel() {
+        const dotsContainer = document.getElementById('dots');
+        const slides = document.getElementById('slides');
+        if (!dotsContainer || !slides) return;
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < slides.children.length; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+        if (slideInterval) clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, 4000);
+    }
+    
+    // ========== 登录注册 ==========
+    function openLogin() {
+        document.getElementById('login-modal').style.display = 'flex';
+    }
+    
+    function closeModal() {
+        document.getElementById('login-modal').style.display = 'none';
+    }
+    
+    function switchAuth() {
+        isLoginMode = !isLoginMode;
+        document.getElementById('modal-title').innerText = isLoginMode ? '登录' : '注册';
+        document.getElementById('modal-btn').innerText = isLoginMode ? '登录' : '注册';
+        document.getElementById('email').style.display = isLoginMode ? 'none' : 'block';
+        document.getElementById('switch-link').innerText = isLoginMode ? '立即注册' : '返回登录';
+        document.querySelectorAll('.error').forEach(e => e.style.display = 'none');
+    }
+    
+    async function handleAuth() {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const email = document.getElementById('email').value.trim();
+        
+        let valid = true;
+        if (!username) { document.getElementById('username-error').style.display = 'block'; valid = false; }
+        else { document.getElementById('username-error').style.display = 'none'; }
+        if (!password) { document.getElementById('password-error').style.display = 'block'; valid = false; }
+        else { document.getElementById('password-error').style.display = 'none'; }
+        if (!isLoginMode && (!email || !email.includes('@'))) {
+            document.getElementById('email-error').style.display = 'block';
+            valid = false;
+        } else {
+            document.getElementById('email-error').style.display = 'none';
+        }
+        if (!valid) return;
+        
+        const users = JSON.parse(localStorage.getItem('app_users') || '[]');
+        
+        if (isLoginMode) {
+            // 登录
+            const user = users.find(u => u.username === username && u.password === password);
+            if (user) {
+                currentUser = { ...user };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                closeModal();
+                updateUI();
+                await loadFavoritesFromDB();
+                alert(`欢迎回来，${username}`);
+            } else {
+                alert('用户名或密码错误');
+            }
+        } else {
+            // 注册
+            if (users.some(u => u.username === username)) {
+                alert('用户名已存在');
+                return;
+            }
+            const newUser = {
+                id: Date.now(),
+                username: username,
+                password: password,
+                email: email
+            };
+            users.push(newUser);
+            localStorage.setItem('app_users', JSON.stringify(users));
+            alert('注册成功，请登录');
+            switchAuth();
+        }
+    }
+    
+    function loadUser() {
+        const saved = localStorage.getItem('currentUser');
+        if (saved) {
+            currentUser = JSON.parse(saved);
+            updateUI();
+            loadFavoritesFromDB();
+        }
+    }
+    
+    function logout() {
+        currentUser = null;
+        localStorage.removeItem('currentUser');
+        favorites = [];
+        updateUI();
+        alert('已退出登录');
+        showPage('home');
+        // 清空收藏夹显示
+        if (document.getElementById('favorites-page').classList.contains('active')) {
+            renderFavoritesPage();
+        }
+        if (document.getElementById('profile-page').classList.contains('active')) {
+            document.getElementById('profile-info').innerHTML = `<p style="color:#999;">请先登录</p>`;
+        }
+    }
+    
+    function updateUI() {
+        if (currentUser) {
+            document.getElementById('login-btn').style.display = 'none';
+            document.getElementById('logout-btn').style.display = 'inline-block';
+            document.getElementById('nav-favorites').style.display = 'inline';
+            document.getElementById('nav-profile').style.display = 'inline';
+        } else {
+            document.getElementById('login-btn').style.display = 'inline-block';
+            document.getElementById('logout-btn').style.display = 'none';
+            document.getElementById('nav-favorites').style.display = 'none';
+            document.getElementById('nav-profile').style.display = 'none';
+        }
+    }
+    
+    // ========== 分类筛选 ==========
+    document.getElementById('category-list')?.addEventListener('click', (e) => {
+        const catItem = e.target.closest('.category-item');
+        if (!catItem) return;
+        document.querySelectorAll('.category-item').forEach(c => c.classList.remove('active'));
+        catItem.classList.add('active');
+        const category = catItem.dataset.category;
+        if (category === 'all') {
+            renderScenicList(scenicData);
+        } else {
+            renderScenicList(scenicData.filter(s => s.category === category));
+        }
+    });
+    
+    // 绑定事件
+    document.getElementById('switch-link')?.addEventListener('click', (e) => { e.preventDefault(); switchAuth(); });
+    window.addEventListener('click', (e) => { if (e.target === document.getElementById('login-modal')) closeModal(); });
+    
+    // 初始化
+    initCarousel();
+    renderScenicList(scenicData);
+    loadUser();
+</script>
+</body>
+</html>
